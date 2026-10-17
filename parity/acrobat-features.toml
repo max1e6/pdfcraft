@@ -6902,7 +6902,7 @@ area = "J"
 tier = "P2"
 milestone = "M10"
 status = "partial"
-commands = ["file.open"]
+commands = ["file.open", "page.insert", "page.combine", "create.multiple", "create.multiple_separate"]
 tools = ["doc_create_multiple", "doc_combine"]
 evidence = [
     "crates/create/src/office.rs::office_files_are_recognised_by_extension_and_signature",
@@ -6911,11 +6911,18 @@ evidence = [
     "crates/create/src/office.rs::a_converter_that_makes_no_pdf_is_reported",
     "crates/create/src/office.rs::libreoffice_converts_a_document_when_installed",
     "crates/engine/src/tests.rs::office_documents_convert_through_libreoffice_or_explain_why_not",
-    "crates/engine/src/tests.rs::inline_conversions_refuse_office_documents_without_running_libreoffice",
     "crates/ui-egui/src/open_worker_tests.rs::file_open_converts_an_office_document_on_the_worker",
     "crates/ui-egui/src/open_worker_tests.rs::the_open_picker_defaults_to_pdf_and_offers_images_office_text_and_all_files",
+    "crates/ui-egui/src/office_import_tests.rs::insert_pages_converts_a_word_document_on_the_worker",
+    "crates/ui-egui/src/office_import_tests.rs::insert_pages_inserts_nothing_if_the_document_changed_during_the_conversion",
+    "crates/ui-egui/src/office_import_tests.rs::word_documents_inserted_one_after_another_all_arrive",
+    "crates/ui-egui/src/office_import_tests.rs::combine_lists_a_word_document_among_pdfs_in_order",
+    "crates/ui-egui/src/office_import_tests.rs::create_multiple_joins_a_word_document_with_the_other_files",
+    "crates/ui-egui/src/office_import_tests.rs::separate_pdfs_writes_a_word_document_as_its_own_pdf",
+    "crates/ui-egui/src/office_import_tests.rs::picked_paths_with_a_word_document_go_through_the_worker",
+    "crates/ui-egui/src/office_import_tests.rs::a_failed_conversion_is_reported_with_its_reason",
 ]
-notes = "File ▸ Open (desktop) opens Word, Excel, PowerPoint, OpenDocument and RTF files (Office documents filter; PDF stays the default) as new, unsaved PDFs, converted on the open worker by an installed LibreOffice run headless in a private temporary folder with a fresh profile (macros disabled, untrusted links blocked) and stopped after 120 s. Found through PDFCRAFT_SOFFICE, the PATH, or the usual install folders; without it the user is told LibreOffice is needed. The automation tools that convert files (doc_create_multiple, doc_combine, batch convert) take Office documents too. Not yet: Insert pages, Combine files and Create ▸ Multiple files in the app refuse Office documents (they convert on the frame thread) and point to File ▸ Open; no Create ▸ From Office command or conversion settings; Visio and Publisher; the web build; layout fidelity is LibreOffice's, not measured against Acrobat; whether LibreOffice fetches remote images in a document is not yet verified."
+notes = "File ▸ Open (desktop) opens Word, Excel, PowerPoint, OpenDocument and RTF files (Office documents filter; PDF stays the default) as new, unsaved PDFs, converted on the open worker by an installed LibreOffice run headless in a private temporary folder with a fresh profile (macros disabled, untrusted links blocked) and stopped after 120 s. Found through PDFCRAFT_SOFFICE, the PATH, or the usual install folders; without it the user is told LibreOffice is needed. The automation tools that convert files (doc_create_multiple, doc_combine, batch convert) take Office documents too. Insert pages (picker, page-grid drop), Combine files (picker, drop, folder) and Create ▸ Multiple files (one PDF or separate PDFs) take them as well: one worker thread converts them in order while the progress card names the file, then the batch goes on to its tool as PDFs under their own names; a failure is named with its reason, and Insert pages inserts nothing if the document was edited meanwhile. Not yet: a conversion can't be cancelled; Combine doesn't flag the same Office file added twice (each conversion is a new PDF); no Create ▸ From Office command or conversion settings; Visio and Publisher; the web build; layout fidelity is LibreOffice's, not measured against Acrobat; whether LibreOffice fetches remote images in a document is not yet verified."
 
 [[feature]]
 id = "create.create-multiple"

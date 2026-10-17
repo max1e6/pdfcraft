@@ -70,7 +70,17 @@ fn files_picker(purpose: FilePurpose) -> rfd::AsyncFileDialog {
         return dialog.add_filter("PDF", &["pdf"]);
     }
     let all: Vec<&str> = std::iter::once("pdf").chain(pdfcraft_engine::CONVERTIBLE).collect();
-    dialog.add_filter(tl!("PDF, images and text"), &all).add_filter("PDF", &["pdf"])
+    // LibreOffice converts Office documents on the desktop (`office_import`).
+    #[cfg(not(target_arch = "wasm32"))]
+    let (label, all) = (tl!("PDF, images, text and Office documents"), [all, pdfcraft_engine::OFFICE_EXTENSIONS.to_vec()].concat());
+    #[cfg(target_arch = "wasm32")]
+    let label = tl!("PDF, images and text");
+    dialog.add_filter(label, &all).add_filter("PDF", &["pdf"])
+}
+
+/// Whether `name` has a Word, Excel, PowerPoint, OpenDocument or RTF extension.
+pub(crate) fn office_named(name: &str) -> bool {
+    name.rsplit_once('.').is_some_and(|(_, ext)| pdfcraft_engine::OFFICE_EXTENSIONS.iter().any(|e| ext.eq_ignore_ascii_case(e)))
 }
 
 /// The Replace Pages dialog: the chosen file and the ranges (1-based, inclusive).
@@ -107,6 +117,12 @@ impl FilePurpose {
 pub struct PickTarget {
     doc: DocId,
     generation: Option<u64>,
+}
+
+impl PickTarget {
+    pub(crate) fn doc(self) -> DocId {
+        self.doc
+    }
 }
 
 /// Files picked asynchronously in a browser, waiting for the next frame (see
@@ -236,10 +252,16 @@ impl Default for RotateDraft {
     }
 }
 
+/// A picked file's name.
+#[cfg(not(target_arch = "wasm32"))]
+pub(crate) fn name_of(path: &std::path::Path) -> String {
+    path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| "file.pdf".into())
+}
+
 /// A picked file's name and bytes, or its name and why it can't be read.
 #[cfg(not(target_arch = "wasm32"))]
-fn read_named(path: &std::path::Path) -> Result<(String, Vec<u8>), (String, String)> {
-    let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| "file.pdf".into());
+pub(crate) fn read_named(path: &std::path::Path) -> Result<(String, Vec<u8>), (String, String)> {
+    let name = name_of(path);
     match std::fs::read(path) {
         Ok(bytes) => Ok((name, bytes)),
         Err(e) => Err((name, e.to_string())),
@@ -318,6 +340,27 @@ impl PdfCraftApp {
     /// Read the picked files and use them.
     #[cfg(not(target_arch = "wasm32"))]
     pub(crate) fn use_paths(&mut self, purpose: FilePurpose, paths: &[std::path::PathBuf]) {
+        // Office documents are converted on a worker first; the other files are read in turn.
+        if crate::office_import::takes_office(purpose) && paths.iter().any(|p| office_named(&name_of(p))) {
+            let paths = paths.to_vec();
+            let import = move |app: &mut Self, dir: Option<std::path::PathBuf>| {
+                let mut batch = crate::office_import::Batch::default();
+                paths.into_iter().for_each(|p| batch.path(p));
+                app.import(purpose, batch, dir);
+            };
+            match (purpose, self.export_dir_override.clone()) {
+                (FilePurpose::CreateMultipleSeparate, Some(dir)) => import(self, Some(std::path::PathBuf::from(dir))),
+                (FilePurpose::CreateMultipleSeparate, None) => {
+                    self.ask_one(
+                        crate::pickers::Ask::Folder(rfd::AsyncFileDialog::new().set_title(tl!("Choose a folder for the exported files"))),
+                        None,
+                        move |app, dir| import(app, Some(dir)),
+                    );
+                }
+                _ => import(self, None),
+            }
+            return;
+        }
         if purpose == FilePurpose::CreateMultiple {
             // Each file is read when its turn comes, so the selection's bytes are not all held at once.
             if !paths.is_empty() {
@@ -439,14 +482,19 @@ impl PdfCraftApp {
     /// Whether a pick for `target` may still be used: the document is still the active one and
     /// unedited. Tells the user when not.
     pub(crate) fn still_pick_target(&mut self, target: Option<PickTarget>) -> bool {
-        let Some(t) = target else { return true };
-        let active = self.active_ids().map(|(_, id)| id);
-        let generation = self.session.get(t.doc).map(|d| d.edit_generation());
-        if active == Some(t.doc) && generation == t.generation {
+        if self.pick_target_holds(target) {
             return true;
         }
         self.notify_tr("The document changed while you were choosing a file, so nothing was changed.");
         false
+    }
+
+    /// Whether `target` is still the active document, unedited.
+    pub(crate) fn pick_target_holds(&self, target: Option<PickTarget>) -> bool {
+        let Some(t) = target else { return true };
+        let active = self.active_ids().map(|(_, id)| id);
+        let generation = self.session.get(t.doc).map(|d| d.edit_generation());
+        active == Some(t.doc) && generation == t.generation
     }
 
     /// Handle files picked asynchronously.
@@ -465,6 +513,16 @@ impl PdfCraftApp {
 
     /// Use picked files (also the entry point for tests and automation).
     pub fn use_files(&mut self, purpose: FilePurpose, files: Vec<(String, Vec<u8>)>) {
+        // Office documents are converted on a worker first.
+        #[cfg(not(target_arch = "wasm32"))]
+        if crate::office_import::takes_office(purpose)
+            && files.iter().any(|(name, bytes)| pdfcraft_engine::source_kind(name, bytes) == Some(pdfcraft_engine::SourceKind::Office))
+        {
+            let mut batch = crate::office_import::Batch::default();
+            files.into_iter().for_each(|(name, bytes)| batch.file(name, bytes, None));
+            let dir = self.export_dir_override.as_ref().filter(|_| purpose == FilePurpose::CreateMultipleSeparate).map(std::path::PathBuf::from);
+            return self.import(purpose, batch, dir);
+        }
         match purpose {
             FilePurpose::TextFont { page } => {
                 let Some((_, bytes)) = files.into_iter().next() else { return };
@@ -560,7 +618,7 @@ impl PdfCraftApp {
                 }
             };
             let converted =
-                self.session.convert_to_pdf_inline(&name, &Arc::new(bytes)).and_then(|(_, pdf)| Ok((self.session.page_count_of(&name, &pdf)?, pdf)));
+                self.session.convert_to_pdf(&name, &Arc::new(bytes)).and_then(|(_, pdf)| Ok((self.session.page_count_of(&name, &pdf)?, pdf)));
             match converted {
                 Ok((pages, bytes)) => {
                     if self.apply_edit(Edit::InsertPagesFrom {

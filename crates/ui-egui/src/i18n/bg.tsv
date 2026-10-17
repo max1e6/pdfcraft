@@ -1682,6 +1682,10 @@
 	Extracted {n} pages	Извлечени са {n} страници
 	Created a comment summary	Създадено е обобщение на коментарите
 	Couldn't open {name}: {e}	{name} не можа да бъде отворен: {e}
+	PDF, images, text and Office documents	PDF, изображения, текст и документи на Office
+	Converting {name} with LibreOffice… file {d} of {t}	Преобразуване на {name} с LibreOffice… файл {d} от {t}
+	Couldn't convert {name}: {e}	{name} не можа да бъде преобразуван: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Документът се промени, докато {name} се преобразуваше, затова нищо не беше вмъкнато.
 	Couldn't read {name}: {e}	{name} не можа да бъде прочетен: {e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	Преносимият режим е изключен: в {folder} не може да се записва ({error}). Вместо това настройките се пазят в потребителската ви папка.
 	PdfCraft is drawing without a graphics processor, so it may be slow. Updating the graphics driver may help.	PdfCraft рисува без графичен процесор, затова може да е бавен. Обновяването на графичния драйвер може да помогне.

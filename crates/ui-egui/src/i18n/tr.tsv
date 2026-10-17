@@ -1621,6 +1621,10 @@
 	Extracted {n} pages	{n} sayfa ayıklandı
 	Created a comment summary	Bir yorum özeti oluşturuldu
 	Couldn't open {name}: {e}	{name} açılamadı: {e}
+	PDF, images, text and Office documents	PDF, resimler, metin ve Office belgeleri
+	Converting {name} with LibreOffice… file {d} of {t}	{name} LibreOffice ile dönüştürülüyor… Dosya {d} / {t}
+	Couldn't convert {name}: {e}	{name} dönüştürülemedi: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	{name} dönüştürülürken belge değişti, bu yüzden hiçbir şey eklenmedi.
 	Couldn't read {name}: {e}	{name} okunamadı: {e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	Taşınabilir mod kapalı: {folder} konumuna yazılamıyor ({error}). Ayarlar bunun yerine kullanıcı klasörünüzde tutulur.
 	PdfCraft is drawing without a graphics processor, so it may be slow. Updating the graphics driver may help.	PdfCraft grafik işlemcisi olmadan çizim yapıyor, bu nedenle yavaş olabilir. Grafik sürücüsünü güncellemek yardımcı olabilir.

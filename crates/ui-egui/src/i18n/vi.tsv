@@ -1940,6 +1940,10 @@ comment menu	Edit	Sửa
 	Couldn't open the result: {e}	Không thể mở kết quả: {e}
 	Couldn't open the signed version: {e}	Không thể mở phiên bản đã ký: {e}
 	Couldn't open {name}: {e}	Không thể mở {name}: {e}
+	PDF, images, text and Office documents	PDF, hình ảnh, văn bản và tài liệu Office
+	Converting {name} with LibreOffice… file {d} of {t}	Đang chuyển đổi {name} bằng LibreOffice… tệp {d} trên {t}
+	Couldn't convert {name}: {e}	Không thể chuyển đổi {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Tài liệu đã thay đổi trong khi {name} đang được chuyển đổi, nên không có gì được chèn.
 	Couldn't optimize the file	Không thể tối ưu hóa tệp
 	Couldn't optimize the file: {e}	Không thể tối ưu hóa tệp: {e}
 	Couldn't print from the browser ({e}); downloaded {name} to print instead	Không thể in từ trình duyệt ({e}); đã tải {name} xuống để in thay thế

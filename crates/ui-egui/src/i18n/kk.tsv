@@ -1652,6 +1652,10 @@
 	Extracted {n} pages	{n} бет шығарып алынды
 	Created a comment summary	Түсініктемелер жиынтығы жасалды
 	Couldn't open {name}: {e}	{name} файлын ашу мүмкін болмады: {e}
+	PDF, images, text and Office documents	PDF, суреттер, мәтін және Office құжаттары
+	Converting {name} with LibreOffice… file {d} of {t}	{name} LibreOffice арқылы түрлендірілуде… файл {d}/{t}
+	Couldn't convert {name}: {e}	{name} файлын түрлендіру мүмкін болмады: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	{name} түрлендіріліп жатқанда құжат өзгерді, сондықтан ештеңе кірістірілмеді.
 	Couldn't read {name}: {e}	«{name}» оқылмады: {e}
 	Couldn't save: {e}	Сақтау мүмкін болмады: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	Тіркемелерді веб-нұсқада жүктеп алу M3.10-мен келеді ({n} байт дайын)

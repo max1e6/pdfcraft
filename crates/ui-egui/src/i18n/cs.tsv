@@ -1773,6 +1773,10 @@ key	Space	Mezerník
 	Extracted {n} pages	Extrahováno stránek: {n}
 	Created a comment summary	Souhrn komentářů vytvořen
 	Couldn't open {name}: {e}	{name} nelze otevřít: {e}
+	PDF, images, text and Office documents	PDF, obrázky, text a dokumenty Office
+	Converting {name} with LibreOffice… file {d} of {t}	Převádění {name} pomocí LibreOffice… soubor {d} z {t}
+	Couldn't convert {name}: {e}	{name} nelze převést: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Dokument se během převodu {name} změnil, proto nebylo nic vloženo.
 	Couldn't read {name}: {e}	{name} nelze přečíst: {e}
 	Couldn't save: {e}	Nelze uložit: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	Stahování příloh na webu přijde s M3.10 (připraveno {n} bajtů)

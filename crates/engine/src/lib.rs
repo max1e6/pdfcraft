@@ -2762,14 +2762,6 @@ pub fn guard<T>(f: impl FnOnce() -> T) -> Result<T, String> {
     })
 }
 
-/// Whether a conversion may run LibreOffice for an Office document (seconds, in another
-/// process) or must refuse it because the caller is on the frame thread.
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum Office {
-    Convert,
-    Refuse,
-}
-
 /// Convert the Office document `bytes` named `name` (Word, Excel, PowerPoint, OpenDocument,
 /// RTF) to PDF with an installed LibreOffice, and check the result opens. It runs a separate
 /// process for seconds, so callers keep it off the frame thread. Desktop only: on the web it
@@ -4255,30 +4247,14 @@ impl Session {
 
     /// Convert a file Create understands (an image, plain text or an Office document) to PDF
     /// bytes; a PDF is checked (it must open and allow copying pages) and returned as it is.
-    /// An Office document runs LibreOffice ([`office_to_pdf`]), which takes seconds: keep it off
-    /// the frame thread ([`Self::convert_to_pdf_inline`] there).
+    /// An Office document runs LibreOffice ([`office_to_pdf`]), which takes seconds: the app
+    /// converts those on a worker first and passes the PDFs here.
     pub fn convert_to_pdf(&self, name: &str, bytes: &Arc<Vec<u8>>) -> Result<(SourceKind, Arc<Vec<u8>>), EditError> {
-        self.convert(name, bytes, Office::Convert)
-    }
-
-    /// [`Self::convert_to_pdf`] for a caller on the frame thread, which must not wait seconds for
-    /// LibreOffice: an Office document is refused, pointing to File ▸ Open, which converts it in
-    /// the background.
-    pub fn convert_to_pdf_inline(&self, name: &str, bytes: &Arc<Vec<u8>>) -> Result<(SourceKind, Arc<Vec<u8>>), EditError> {
-        self.convert(name, bytes, Office::Refuse)
-    }
-
-    fn convert(&self, name: &str, bytes: &Arc<Vec<u8>>, office: Office) -> Result<(SourceKind, Arc<Vec<u8>>), EditError> {
         let Some(kind) = source_kind(name, bytes) else {
             return Err(EditError::Source(format!(
                 "{name}: this file type can't be converted; use a PDF, an image, a .txt file or a Word, Excel or PowerPoint file"
             )));
         };
-        if kind == SourceKind::Office && office == Office::Refuse {
-            return Err(EditError::Source(format!(
-                "{name}: Word, Excel and PowerPoint files can't be added here yet; open it with File ▸ Open, which converts it to a PDF"
-            )));
-        }
         let title = name.rsplit_once('.').map_or(name, |(s, _)| s);
         // Image decoders read untrusted bytes: a panic in one must not take the app down.
         let created = guard(|| match kind {
@@ -4295,22 +4271,12 @@ impl Session {
     /// returned as it is, unchecked (Combine reads it itself, with its password), as is a file
     /// named .pdf without a `%PDF-` header, which the reader may still open.
     pub fn as_pdf(&self, name: &str, bytes: &Arc<Vec<u8>>) -> Result<Arc<Vec<u8>>, EditError> {
-        self.as_pdf_with(name, bytes, Office::Convert)
-    }
-
-    /// [`Self::as_pdf`] on the frame thread: Office documents are refused, as
-    /// [`Self::convert_to_pdf_inline`] refuses them.
-    pub fn as_pdf_inline(&self, name: &str, bytes: &Arc<Vec<u8>>) -> Result<Arc<Vec<u8>>, EditError> {
-        self.as_pdf_with(name, bytes, Office::Refuse)
-    }
-
-    fn as_pdf_with(&self, name: &str, bytes: &Arc<Vec<u8>>, office: Office) -> Result<Arc<Vec<u8>>, EditError> {
         let pdf = match source_kind(name, bytes) {
             Some(SourceKind::Pdf) => true,
             Some(SourceKind::Image | SourceKind::Text | SourceKind::Office) => false,
             None => name.to_ascii_lowercase().ends_with(".pdf"),
         };
-        if pdf { Ok(bytes.clone()) } else { self.convert(name, bytes, office).map(|(_, pdf)| pdf) }
+        if pdf { Ok(bytes.clone()) } else { self.convert_to_pdf(name, bytes).map(|(_, pdf)| pdf) }
     }
 
     /// Reduce File Size: Acrobat's defaults (images above 225 ppi to 150 ppi, JPEG medium

@@ -1950,6 +1950,10 @@ comment menu	Edit	Redaguoti
 	Couldn't open the result: {e}	Nepavyko atverti rezultato: {e}
 	Couldn't open the signed version: {e}	Nepavyko atverti pasirašytos versijos: {e}
 	Couldn't open {name}: {e}	Nepavyko atverti {name}: {e}
+	PDF, images, text and Office documents	PDF, paveikslėliai, tekstas ir „Office“ dokumentai
+	Converting {name} with LibreOffice… file {d} of {t}	{name} konvertuojamas naudojant LibreOffice… failas {d} iš {t}
+	Couldn't convert {name}: {e}	Nepavyko konvertuoti {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Dokumentas pasikeitė, kol buvo konvertuojamas {name}, todėl nieko neįterpta.
 	Couldn't optimize the file	Nepavyko optimizuoti failo
 	Couldn't optimize the file: {e}	Nepavyko optimizuoti failo: {e}
 	Couldn't print from the browser ({e}); downloaded {name} to print instead	Nepavyko spausdinti iš naršyklės ({e}); vietoj to atsisiųstas spausdintinas failas {name}

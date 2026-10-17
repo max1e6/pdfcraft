@@ -1,5 +1,6 @@
 # Where PdfCraft falls short of Acrobat Pro
 
+> **Last reviewed:** 2026-10-17 · **Last updated:** 2026-10-17 · **Change:** minor (gap 8: Insert pages, Combine files and Create ▸ Multiple files take Office documents; estimates unchanged) · **Target:** Adobe Acrobat Pro (Acrobat DC, continuous track 26.002.21931, macOS)
 > **Last reviewed:** 2026-10-17 · **Last updated:** 2026-10-17 · **Change:** minor (gap 8: Office documents open through an installed LibreOffice; estimates unchanged) · **Target:** Adobe Acrobat Pro (Acrobat DC, continuous track 26.002.21931, macOS)
 > **Last reviewed:** 2026-10-15 · **Last updated:** 2026-10-15 · **Change:** minor (gap 12: reading order is scored, not just word F1) · **Target:** Adobe Acrobat Pro (Acrobat DC, continuous track 26.002.21931, macOS)
 > **Last reviewed:** 2026-10-12 · **Last updated:** 2026-10-13 · **Change:** minor (gap 14: Vietnamese catalog shipped; Hindi/Indonesian/Korean and Arabic RTL remain) · **Target:** Adobe Acrobat Pro (Acrobat DC, continuous track 26.002.21931, macOS)
@@ -160,9 +161,10 @@ update the numbers.
 ### 8. Office export weak, Office import basic
 
 - **Missing:** Word export that keeps layout; Excel and PowerPoint export; creating PDFs from HTML,
-  web pages and PostScript; SVG/XML/EPS/PS/JPEG 2000 export. Office documents open from File ▸ Open
-  through an installed LibreOffice, but Insert pages, Combine files and Create ▸ Multiple files
-  don't take them yet.
+  web pages and PostScript; SVG/XML/EPS/PS/JPEG 2000 export. Office documents become PDFs through an
+  installed LibreOffice, on a worker thread, from File ▸ Open, Insert pages, Combine files and
+  Create ▸ Multiple files; there is no Create ▸ From Office command, and a conversion can't be
+  cancelled.
 - **Evidence:** `create.export-docx` partial; the synthetic invoice regression for
   [#773](https://github.com/storytold/pdfcraft/issues/773) now covers absent inferred borders,
   floating watermark text and per-page section sizes. Exact font matching, vector rules and
@@ -171,8 +173,8 @@ update the numbers.
   `create.from-html` planned.
 - **Impact:** "Export PDF" and "Create PDF" are two of Acrobat's most used tools.
 - **Gate:** lossy or missing sub-cases of the convert-and-share workflow (partial, not blocking).
-  First beta items: the rest of Create PDF from Office (Insert, Combine and Create ▸ Multiple files
-  on a worker, a Create ▸ From Office command; 5–10 h) and a Word export that keeps layout (20–35 h).
+  First beta items: the rest of Create PDF from Office (a Create ▸ From Office command and
+  cancelling a conversion; 2–5 h) and a Word export that keeps layout (20–35 h).
 - **Estimate:** 55–100 h. **Doc:** [file-format-parity.md](file-format-parity.md).
 
 ### 9. No Preflight; PDF/A partial; PDF/X and PDF/UA absent
@@ -382,6 +384,7 @@ update the numbers.
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-17 | minor | Gap 8: Insert pages, Combine files and Create ▸ Multiple files take Office documents, converted by LibreOffice on a worker thread with a progress card. Estimates unchanged. |
 | 2026-10-15 | minor | Gap 12: the text oracle scores reading order as well as word F1, which is a bag of words and cannot see order; the first measurement separated 18 improvements from 6 regressions in a change F1 called unchanged on 26 of 29 files. Estimates unchanged. |
 | 2026-10-15 | patch | Gap 24: record localization and installers as partial (unusable Chinese, Telugu and Arabic; unsigned Linux packages) |
 | 2026-10-13 | minor | Gap 6: Organize Pages selects and reveals the current page on open, including after an earlier grid selection elsewhere (#1910). Estimates unchanged. |

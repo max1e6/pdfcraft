@@ -37,7 +37,8 @@
 //!   `theme=light|dark|system` changes the saved theme preference; `ui.state.theme_preference`
 //!   reports the choice and `ui.state.theme` reports the resolved light/dark colours.
 //! - `ui.open {path}`: accept a file open; native opens report `pending: true` until they
-//!   complete and are listed in `ui.state.pending_opens`.
+//!   complete and are listed in `ui.state.pending_opens`. Office documents waiting for
+//!   LibreOffice for Insert pages, Combine or Create Multiple are listed in `ui.state.converting`.
 //! - `ui.screenshot {region?}`: PNG of the window (base64), optionally cropped to a rect.
 
 use std::collections::{HashMap, VecDeque};
@@ -657,10 +658,16 @@ impl Host for crate::PdfCraftApp {
             self.pending_opens.iter().map(|pending| json!({ "token": pending.token, "name": pending.name, "path": pending.path })).collect();
         #[cfg(target_arch = "wasm32")]
         let pending_opens: Vec<Value> = Vec::new();
+        // Office documents waiting for LibreOffice (Insert pages, Combine, Create Multiple).
+        #[cfg(not(target_arch = "wasm32"))]
+        let converting = self.importing();
+        #[cfg(target_arch = "wasm32")]
+        let converting: Vec<&str> = Vec::new();
         json!({
             "docking": self.docking,
             "documents": docs,
             "pending_opens": pending_opens,
+            "converting": converting,
             "active": active.map(|v| json!({
                 "doc": v.id.0,
                 "page": v.current + 1,

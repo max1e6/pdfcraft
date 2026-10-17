@@ -1722,6 +1722,10 @@
 	Extracted {n} pages	Извлечено {n} страниц
 	Created a comment summary	Создана сводка комментариев
 	Couldn't open {name}: {e}	Не удалось открыть {name}: {e}
+	PDF, images, text and Office documents	PDF, изображения, текст и документы Office
+	Converting {name} with LibreOffice… file {d} of {t}	Преобразование {name} с помощью LibreOffice… файл {d} из {t}
+	Couldn't convert {name}: {e}	Не удалось преобразовать {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Документ изменился, пока {name} преобразовывался, поэтому ничего не вставлено.
 	Couldn't read {name}: {e}	Не удалось прочитать {name}: {e}
 	Couldn't save: {e}	Не удалось сохранить: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	Скачивание вложений в веб-версии появится с M3.10 ({n} байт .ready)

@@ -1719,6 +1719,10 @@
 	Extracted {n} pages	Видобуто сторінок: {n}
 	Created a comment summary	Створено зведення коментарів
 	Couldn't open {name}: {e}	Не вдалося відкрити {name}: {e}
+	PDF, images, text and Office documents	PDF, зображення, текст і документи Office
+	Converting {name} with LibreOffice… file {d} of {t}	Перетворення {name} за допомогою LibreOffice… файл {d} із {t}
+	Couldn't convert {name}: {e}	Не вдалося перетворити {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Документ змінився під час перетворення {name}, тому нічого не вставлено.
 	Couldn't read {name}: {e}	Не вдалося прочитати {name}: {e}
 	Couldn't save: {e}	Не вдалося зберегти: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	Завантаження вкладень у вебверсії з’явиться на етапі M3.10 (готово байтів: {n})

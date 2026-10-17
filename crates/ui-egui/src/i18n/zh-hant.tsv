@@ -1633,6 +1633,10 @@
 	Extracted {n} pages	已提取{n}頁
 	Created a comment summary	已建立註解摘要
 	Couldn't open {name}: {e}	無法開啟{name}：{e}
+	PDF, images, text and Office documents	PDF、圖片、文字和 Office 文件
+	Converting {name} with LibreOffice… file {d} of {t}	正在用 LibreOffice 轉換{name}…第{d}個檔案，共{t}個
+	Couldn't convert {name}: {e}	無法轉換{name}：{e}
+	The document changed while {name} was being converted, so nothing was inserted.	轉換{name}期間文件已變更，因此未插入任何內容。
 	Couldn't read {name}: {e}	無法讀取{name}：{e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	可攜模式已關閉：無法寫入{folder}（{error}）。設定改為儲存在你的使用者資料夾中。
 	Couldn't save: {e}	無法儲存：{e}

@@ -1556,6 +1556,10 @@
 	Extracted {n} pages	{n} páginas extraídas
 	Created a comment summary	Resumo de comentários criado
 	Couldn't open {name}: {e}	Não foi possível abrir {name}: {e}
+	PDF, images, text and Office documents	PDF, imagens, texto e documentos do Office
+	Converting {name} with LibreOffice… file {d} of {t}	Convertendo {name} com o LibreOffice… arquivo {d} de {t}
+	Couldn't convert {name}: {e}	Não foi possível converter {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	O documento mudou enquanto {name} era convertido, então nada foi inserido.
 	Couldn't read {name}: {e}	Não foi possível ler {name}: {e}
 	Couldn't save: {e}	Não foi possível salvar: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	O download de anexos na Web chegará no M3.10 ({n} bytes prontos)

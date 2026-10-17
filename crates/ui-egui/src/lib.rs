@@ -127,6 +127,8 @@ pub(crate) fn date_text_for_pdf(session: &Session) -> Result<String, String> {
 pub(crate) const MAX_AUTHOR_CHARS: usize = 200;
 
 #[cfg(not(target_arch = "wasm32"))]
+mod office_import;
+#[cfg(not(target_arch = "wasm32"))]
 mod open_worker;
 mod organize_panel;
 pub mod portable;
@@ -585,6 +587,16 @@ pub struct PdfCraftApp {
     next_open_token: u64,
     #[cfg(all(test, not(target_arch = "wasm32")))]
     open_prepare_gate: Option<std::sync::Arc<open_worker::PrepareGate>>,
+    /// Converts Office documents for Insert pages, Combine and Create Multiple, and the batches
+    /// waiting for it (`office_import`); the progress card they last showed.
+    #[cfg(not(target_arch = "wasm32"))]
+    office_worker: Option<office_import::OfficeWorker>,
+    #[cfg(not(target_arch = "wasm32"))]
+    pending_imports: Vec<office_import::PendingImport>,
+    #[cfg(not(target_arch = "wasm32"))]
+    import_progress: Option<String>,
+    #[cfg(all(test, not(target_arch = "wasm32")))]
+    office_gate: Option<office_import::Gate>,
     /// Folders pinned to Home, and what they held when last listed.
     pub pinned: folders_ui::PinnedFolders,
     pub toast: Option<(String, f64)>,
@@ -944,6 +956,14 @@ impl PdfCraftApp {
             next_open_token: 0,
             #[cfg(all(test, not(target_arch = "wasm32")))]
             open_prepare_gate: None,
+            #[cfg(not(target_arch = "wasm32"))]
+            office_worker: None,
+            #[cfg(not(target_arch = "wasm32"))]
+            pending_imports: Vec::new(),
+            #[cfg(not(target_arch = "wasm32"))]
+            import_progress: None,
+            #[cfg(all(test, not(target_arch = "wasm32")))]
+            office_gate: None,
             pinned: Default::default(),
             toast: None,
             integrated_titlebar: false,
@@ -1488,6 +1508,18 @@ impl PdfCraftApp {
         };
         view.insert_at = Some(gap);
         if let Some(drop) = self.grid_drop.take() {
+            // Office documents are converted on a worker first.
+            #[cfg(not(target_arch = "wasm32"))]
+            if drop.files.iter().any(|(name, _)| files::office_named(name)) {
+                let mut batch = office_import::Batch::default();
+                for (name, source) in drop.files {
+                    match source {
+                        Ok(bytes) => batch.file(name, bytes, None),
+                        Err(path) => batch.path(path),
+                    }
+                }
+                return self.import(files::FilePurpose::InsertPages, batch, None);
+            }
             self.insert_each(drop.files.into_iter().map(read_grid_file));
         }
     }
@@ -3077,6 +3109,8 @@ impl eframe::App for PdfCraftApp {
         self.poll_export();
         self.poll_ocr();
         self.poll_optimize();
+        #[cfg(not(target_arch = "wasm32"))]
+        self.poll_imports();
         self.poll_action();
         self.process_file_requests();
         #[cfg(not(target_arch = "wasm32"))]

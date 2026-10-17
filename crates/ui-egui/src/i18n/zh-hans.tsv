@@ -1689,6 +1689,10 @@
 	Extracted {n} pages	已提取{n}页
 	Created a comment summary	已创建注释摘要
 	Couldn't open {name}: {e}	无法打开{name}：{e}
+	PDF, images, text and Office documents	PDF、图像、文本和 Office 文档
+	Converting {name} with LibreOffice… file {d} of {t}	正在用 LibreOffice 转换{name}…第{d}个文件，共{t}个
+	Couldn't convert {name}: {e}	无法转换{name}：{e}
+	The document changed while {name} was being converted, so nothing was inserted.	转换{name}期间文档已更改，因此未插入任何内容。
 	Couldn't read {name}: {e}	无法读取{name}：{e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	便携模式已关闭：无法写入{folder}（{error}）。设置改为保存在你的用户文件夹中。
 	PdfCraft is drawing without a graphics processor, so it may be slow. Updating the graphics driver may help.	PdfCraft 正在不使用图形处理器的情况下绘制，因此可能较慢。更新显卡驱动程序可能会有帮助。

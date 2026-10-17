@@ -1727,6 +1727,10 @@
 	Extracted {n} pages	Estratte {n} pagine
 	Created a comment summary	Creato un riepilogo dei commenti
 	Couldn't open {name}: {e}	Impossibile aprire {name}: {e}
+	PDF, images, text and Office documents	PDF, immagini, testo e documenti Office
+	Converting {name} with LibreOffice… file {d} of {t}	Conversione di {name} con LibreOffice… file {d} di {t}
+	Couldn't convert {name}: {e}	Impossibile convertire {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Il documento è cambiato durante la conversione di {name}, quindi non è stato inserito nulla.
 	Couldn't read {name}: {e}	Impossibile leggere {name}: {e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	La modalità portatile è disattivata: impossibile scrivere in {folder} ({error}). Le impostazioni vengono invece conservate nella tua cartella utente.
 	Couldn't save: {e}	Impossibile salvare: {e}

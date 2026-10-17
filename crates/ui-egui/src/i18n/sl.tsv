@@ -466,6 +466,10 @@
 	Couldn't open the result: {e}	Rezultata ni bilo mogoče odpreti: {e}
 	Couldn't open the signed version: {e}	Podpisane različice ni bilo mogoče odpreti: {e}
 	Couldn't open {name}: {e}	Datoteke {name} ni bilo mogoče odpreti: {e}
+	PDF, images, text and Office documents	PDF, slike, besedilo in dokumenti Office
+	Converting {name} with LibreOffice… file {d} of {t}	Pretvarjanje {name} z LibreOffice… datoteka {d} od {t}
+	Couldn't convert {name}: {e}	Datoteke {name} ni bilo mogoče pretvoriti: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Dokument se je med pretvarjanjem {name} spremenil, zato ni bilo nič vstavljeno.
 	Couldn't optimize the file	Datoteke ni bilo mogoče optimizirati
 	Couldn't optimize the file: {e}	Datoteke ni bilo mogoče optimizirati: {e}
 	Couldn't read {name}: {e}	Datoteke {name} ni bilo mogoče prebrati: {e}

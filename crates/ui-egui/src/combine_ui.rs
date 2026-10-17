@@ -1596,7 +1596,7 @@ fn table_body(
         });
 }
 
-/// The PDFs, images and text files in `dir` (and, if `recursive`, the folders inside it, not
+/// The files in `dir` that can join the list ([`combinable`]) (and, if `recursive`, the folders inside it, not
 /// following links), in natural order, at most [`MAX_FOLDER_FILES`]; and whether there were more.
 #[cfg(not(target_arch = "wasm32"))]
 fn combinable_in(dir: &std::path::Path, recursive: bool) -> (Vec<std::path::PathBuf>, bool) {
@@ -1626,10 +1626,14 @@ fn combinable_in(dir: &std::path::Path, recursive: bool) -> (Vec<std::path::Path
     (found, more)
 }
 
-/// Whether a file with extension `ext` can join the list: a PDF, or an image or text file that
-/// becomes one.
+/// Whether a file with extension `ext` can join the list: a PDF, or an image, text or (on the
+/// desktop, through LibreOffice) Office file that becomes one.
 fn combinable(ext: &str) -> bool {
-    std::iter::once("pdf").chain(pdfcraft_engine::CONVERTIBLE).any(|c| ext.eq_ignore_ascii_case(c))
+    #[cfg(not(target_arch = "wasm32"))]
+    let office = pdfcraft_engine::OFFICE_EXTENSIONS.iter().copied();
+    #[cfg(target_arch = "wasm32")]
+    let office = std::iter::empty();
+    std::iter::once("pdf").chain(pdfcraft_engine::CONVERTIBLE).chain(office).any(|c| ext.eq_ignore_ascii_case(c))
 }
 
 /// A file's bookmark in the combined PDF: its name without ".pdf", or without the extension of
@@ -2409,7 +2413,7 @@ impl PdfCraftApp {
                 notes: Vec::new(),
             };
             let source = bytes.clone();
-            let (bytes, assessed) = match self.session.as_pdf_inline(&name, &bytes) {
+            let (bytes, assessed) = match self.session.as_pdf(&name, &bytes) {
                 Ok(pdf) => {
                     let assessed = assess(&pdf, None);
                     (pdf, assessed)
@@ -2531,7 +2535,7 @@ impl PdfCraftApp {
         let _ = recursive;
     }
 
-    /// Add the PDFs, images and text files in `dir` to the Combine files list, as one undo step.
+    /// Add the files in `dir` that can join the Combine files list ([`combinable`]), as one undo step.
     #[cfg(not(target_arch = "wasm32"))]
     pub(crate) fn add_folder_to_combine(&mut self, dir: &std::path::Path, recursive: bool) {
         let (paths, more) = combinable_in(dir, recursive);

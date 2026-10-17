@@ -1650,6 +1650,10 @@
 	Extracted {n} pages	{n} pages extraites
 	Created a comment summary	Un résumé des commentaires a été créé
 	Couldn't open {name}: {e}	Impossible d'ouvrir {name} : {e}
+	PDF, images, text and Office documents	PDF, images, texte et documents Office
+	Converting {name} with LibreOffice… file {d} of {t}	Conversion de {name} avec LibreOffice… fichier {d} sur {t}
+	Couldn't convert {name}: {e}	Impossible de convertir {name} : {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Le document a été modifié pendant la conversion de {name} ; rien n'a été inséré.
 	Couldn't read {name}: {e}	Impossible de lire {name} : {e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	Le mode portable est désactivé : impossible d'écrire dans {folder} ({error}). Les réglages sont conservés dans votre dossier utilisateur.
 	PdfCraft is drawing without a graphics processor, so it may be slow. Updating the graphics driver may help.	PdfCraft dessine sans processeur graphique et peut donc être lent. Mettre à jour le pilote graphique peut aider.

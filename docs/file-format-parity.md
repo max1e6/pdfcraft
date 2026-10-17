@@ -68,7 +68,7 @@ features total).
 | Plain text | yes | yes | good | `create.from-text` |
 | Clipboard (image or text) | yes | yes | good | `create.from-clipboard` |
 | Screenshot | yes | no | none | `create.from-screenshot` planned |
-| Word, Excel, PowerPoint (and Visio, Publisher on Windows) | yes | yes, desktop only, through an installed LibreOffice (File ▸ Open); not Visio or Publisher | good where LibreOffice is (its layout, not measured against Acrobat) | `create.from-office` partial |
+| Word, Excel, PowerPoint (and Visio, Publisher on Windows) | yes | yes, desktop only, through an installed LibreOffice (File ▸ Open, Insert pages, Combine files, Create ▸ Multiple files); not Visio or Publisher | good where LibreOffice is (its layout, not measured against Acrobat) | `create.from-office` partial |
 | HTML file, web page URL | yes | no | none | `create.from-html`, `create.from-web-page` planned |
 | RTF | yes | yes, through LibreOffice (as Office documents) | good where LibreOffice is | `create.from-office` partial |
 | PostScript / EPS (Distiller) | yes | no | none | `create.distiller` planned (P3) |

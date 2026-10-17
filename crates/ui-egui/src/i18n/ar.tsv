@@ -1721,6 +1721,10 @@
 	Extracted {n} pages	استُخرجت {n} صفحات
 	Created a comment summary	أُنشئ ملخص للتعليقات
 	Couldn't open {name}: {e}	تعذّر فتح {name}: {e}
+	PDF, images, text and Office documents	PDF وصور ونص ومستندات Office
+	Converting {name} with LibreOffice… file {d} of {t}	جارٍ تحويل {name} باستخدام LibreOffice… الملف {d} من {t}
+	Couldn't convert {name}: {e}	تعذّر تحويل {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	تغيّر المستند أثناء تحويل {name}، لذا لم يُدرج أي شيء.
 	Couldn't read {name}: {e}	تعذّرت قراءة {name}: {e}
 	Couldn't save: {e}	تعذّر الحفظ: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	تنزيل المرفقات على الويب سيتوفر مع M3.10 ({n} بايت جاهزة)

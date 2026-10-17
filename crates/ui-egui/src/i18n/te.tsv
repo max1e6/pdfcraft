@@ -1641,6 +1641,10 @@ action wizard	Start	ప్రారంభించు
 	Extracted {n} pages	{n} పేజీలు వేరు తీయబడ్డాయి
 	Created a comment summary	వ్యాఖ్యల సారాంశం సృష్టించబడింది
 	Couldn't open {name}: {e}	{name}ను తెరవడం సాధ్యం కాలేదు: {e}
+	PDF, images, text and Office documents	PDF, చిత్రాలు, టెక్స్ట్ మరియు Office పత్రాలు
+	Converting {name} with LibreOffice… file {d} of {t}	LibreOfficeతో {name}ను మారుస్తోంది… {t}లో {d}వ ఫైల్
+	Couldn't convert {name}: {e}	{name}ను మార్చడం సాధ్యం కాలేదు: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	{name}ను మారుస్తున్నప్పుడు పత్రం మారింది, కాబట్టి ఏమీ చేర్చబడలేదు.
 	Couldn't read {name}: {e}	{name}ను చదవడం సాధ్యం కాలేదు: {e}
 	Couldn't save: {e}	సేవ్ చేయడం సాధ్యం కాలేదు: {e}
 	Downloading attachments on the web arrives with M3.10 ({n} bytes ready)	వెబ్‌లో జోడింపులను డౌన్‌లోడ్ చేయడం M3.10లో వస్తుంది ({n} బైట్‌లు సిద్ధంగా ఉన్నాయి)

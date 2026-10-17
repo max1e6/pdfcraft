@@ -2046,6 +2046,10 @@
 	Character spacing	Απόσταση χαρακτήρων
 	Horizontal scale	Οριζόντια κλίμακα
 	Couldn't open {name}: {e}	Δεν ήταν δυνατό το άνοιγμα του {name}: {e}
+	PDF, images, text and Office documents	PDF, εικόνες, κείμενο και έγγραφα Office
+	Converting {name} with LibreOffice… file {d} of {t}	Μετατροπή του {name} με το LibreOffice… αρχείο {d} από {t}
+	Couldn't convert {name}: {e}	Δεν ήταν δυνατή η μετατροπή του {name}: {e}
+	The document changed while {name} was being converted, so nothing was inserted.	Το έγγραφο άλλαξε ενώ μετατρεπόταν το {name}, οπότε δεν εισήχθη τίποτα.
 	Couldn't read {name}: {e}	Δεν ήταν δυνατή η ανάγνωση του {name}: {e}
 	Portable mode is off: {folder} can't be written ({error}). Settings are kept in your user folder instead.	Η φορητή λειτουργία απενεργοποιήθηκε: δεν είναι δυνατή η εγγραφή στο {folder} ({error}). Οι ρυθμίσεις αποθηκεύονται στον φάκελο χρήστη.
 	PdfCraft is drawing without a graphics processor, so it may be slow. Updating the graphics driver may help.	Το PdfCraft αποδίδει τα γραφικά χωρίς επιτάχυνση από επεξεργαστή γραφικών και ενδέχεται να είναι αργό. Μια ενημέρωση του προγράμματος οδήγησης γραφικών ίσως βοηθήσει.
